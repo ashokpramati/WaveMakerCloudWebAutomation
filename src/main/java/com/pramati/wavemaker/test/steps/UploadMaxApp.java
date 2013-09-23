@@ -1,4 +1,4 @@
-package com.pramati.cloudjee.test.rest;
+package com.pramati.wavemaker.test.steps;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
@@ -6,6 +6,7 @@ import org.json.simple.parser.ParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.pramati.cloudjee.test.steps.RestApiTest;
 import com.pramati.cloudjee.utils.RestApiCall;
 import com.pramati.cloudjee.utils.RestBaseTest;
 

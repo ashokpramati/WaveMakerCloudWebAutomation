@@ -15,11 +15,10 @@
 
 	<test name="Sample Test Demonstrating testNG flow">
 		<classes>
-			<class name="com.pramati.cloudjee.test.rest.RestApiTest" />
-			<class name="com.pramati.cloudjee.test.rest.MaxWarUploadTest" />
-			<!-- <class name="com.pramati.wavemaker.test.WaveMakerTestCase" />
-			<class name="com.pramati.wavemaker.test.WaveMakerMaxWarUploadError"/> -->
-			
+			<class name="com.pramati.cloudjee.test.steps.RestApiTest" />
+			<class name="com.pramati.cloudjee.test.steps.MaxWarUploadTest" />
+			<!-- <class name="com.pramati.wavemaker.test.steps.WaveMakerTestCase" />
+			<class name="com.pramati.wavemaker.test.steps.WaveMakerMaxWarUploadError"/> -->
 		</classes>
 	</test>
 

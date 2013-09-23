@@ -1,4 +1,4 @@
-package com.pramati.cloudjee.test.rest;
+package com.pramati.cloudjee.test.steps;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.pramati.wavemaker.test;
+package com.pramati.wavemaker.test.steps;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

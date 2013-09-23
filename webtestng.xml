@@ -4,9 +4,9 @@
 	preserve-order="true">
 	<test name="Sample Test Demonstrating testNG flow">
 		<classes>			
-			<class name="com.pramati.wavemaker.test.WaveMakerTestCase" /><!-- This test case upload[Deploy],undeploy,stop and start application -->
-			<class name="com.pramati.cloudjee.test.rest.UploadMaxApp" /><!-- Upload max war file in cloud -->
-			<class name="com.pramati.wavemaker.test.WaveMakerMaxWarUploadError"/><!-- This test case verify max file upload error in cloud -->
+			<class name="com.pramati.wavemaker.test.steps.WaveMakerTestCase" /><!-- This test case upload[Deploy],undeploy,stop and start application -->
+			<class name="com.pramati.wavemaker.test.steps.UploadMaxApp" /><!-- Upload max war file in cloud -->
+			<class name="com.pramati.wavemaker.test.steps.WaveMakerMaxWarUploadError"/><!-- This test case verify max file upload error in cloud -->
 		</classes>
 	</test>
 

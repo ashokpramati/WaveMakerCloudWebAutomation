@@ -22,6 +22,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import com.pramati.cloudjee.webdriver.DriverManager;
 import com.pramati.wavemaker.util.ConfigProperties;
 
 /**
