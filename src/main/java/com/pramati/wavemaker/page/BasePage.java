@@ -9,7 +9,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
@@ -34,7 +33,7 @@ import com.pramati.wavemaker.util.ConfigProperties;
  */
 
 public class BasePage extends DriverManager{
-	
+
 	private static final String  PROGRESS_DIALOG = "studio_saveDialogLabel";
 	private static final String  PROGRESS_ERRORTEXT = "wmSizeNode";
 
@@ -87,25 +86,23 @@ public class BasePage extends DriverManager{
 	/**
 	 * Maximizes the current browser window
 	 */
-	protected void windowMaximize() {
+	public static void windowMaximize() {
 		log.info("Maximizing the browser window.");
 		driver.manage().window().maximize();
+		
+		/*Point targetPosition = new Point(0, 0);
+		driver.manage().window().setPosition(targetPosition);
 
-		if (DriverManager.isBrowserChrome()) {
+		String w = "return screen.availWidth";
+		String h = "return screen.availHeight";
+		JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+		int width = ((Long) javascriptExecutor.executeScript(w)).intValue();
+		int height = ((Long) javascriptExecutor.executeScript(h))
+				.intValue();
+		Dimension targetSize = new Dimension(width, height);
 
-			Point targetPosition = new Point(0, 0);
-			driver.manage().window().setPosition(targetPosition);
+		driver.manage().window().setSize(targetSize);*/
 
-			String w = "return screen.availWidth";
-			String h = "return screen.availHeight";
-			JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
-			int width = ((Long) javascriptExecutor.executeScript(w)).intValue();
-			int height = ((Long) javascriptExecutor.executeScript(h))
-					.intValue();
-			Dimension targetSize = new Dimension(width, height);
-
-			driver.manage().window().setSize(targetSize);
-		}
 	}
 
 	/**
@@ -852,7 +849,7 @@ public class BasePage extends DriverManager{
 		wait.until(ExpectedConditions.elementToBeClickable(By
 				.cssSelector(css)));
 	}
-	
+
 	/**
 	 * Waits for the element specified by its <code>css</code> locator
 	 * 
@@ -966,8 +963,8 @@ public class BasePage extends DriverManager{
 					"Timeout waiting for Page Load Request to complete.");
 		}
 	}
-	
-	
+
+
 
 	/**
 	 * Waits until there are no more active ajax connection and until the
@@ -1032,7 +1029,7 @@ public class BasePage extends DriverManager{
 			}
 		});
 	}
-	
+
 	/**
 	 * Drag and drop element from Source location to target location
 	 * 
@@ -1047,8 +1044,8 @@ public class BasePage extends DriverManager{
 		WebElement target = driver.findElement(By.cssSelector(targetId));
 		(new Actions(driver)).dragAndDrop(source, target).perform();
 	}
-	
-	
+
+
 	/**
 	 * Drag and drop element from Source location to target location
 	 * 
@@ -1063,7 +1060,7 @@ public class BasePage extends DriverManager{
 		WebElement target = driver.findElement(By.className(targetId));
 		(new Actions(driver)).dragAndDrop(source, target).perform();
 	}
-	
+
 	/**
 	 * Drag and drop element from Source location to target location
 	 * 
@@ -1078,8 +1075,8 @@ public class BasePage extends DriverManager{
 		WebElement target = driver.findElement(By.xpath(targetId));
 		(new Actions(driver)).dragAndDrop(source, target).perform();
 	}
-	
-	
+
+
 	/**
 	 * Wait for Element to disable by class locator
 	 * 
@@ -1096,7 +1093,7 @@ public class BasePage extends DriverManager{
 		}
 		log.info("Element is disabled for class id " +iD);
 	}
-	
+
 	/**
 	 * Wait for Element to Enable by class locator
 	 * 
@@ -1108,13 +1105,13 @@ public class BasePage extends DriverManager{
 		List<String> idText = new ArrayList<String>();
 		WebElement idEle = driver.findElement(By.id(iD));
 		idText.add(idEle.getText());		
-		
+
 		log.info("Got text :" + idEle.getText());
 		while (idEle.getText().isEmpty()) {			
 			idEle = driver.findElement(By.id(iD));
-			
+
 		}
-		
+
 		while (!idEle.getText().isEmpty()) {			
 			idEle = driver.findElement(By.id(iD));
 			try {
@@ -1128,8 +1125,8 @@ public class BasePage extends DriverManager{
 		log.info("Got all text of displayed in window "+idText);
 		return idText;
 	}
-	
-	
+
+
 
 	/**
 	 * Wait for Element to disable by class locator
@@ -1142,10 +1139,10 @@ public class BasePage extends DriverManager{
 		while (idEle.getText().isEmpty()) {			
 			idEle = driver.findElement(By.className(iD));
 		}
-		
+
 		log.info("Element is disabled for class id " +iD);
 	}
-	
+
 	/**
 	 * Wait for Element to Enable by class locator
 	 * 
@@ -1157,8 +1154,8 @@ public class BasePage extends DriverManager{
 		while (idEle.getText().isEmpty()) {			
 			idEle = driver.findElement(By.id(iD));
 		}
-		
+
 		log.info("Element is enabled for class id " +iD);
 	}
-	
+
 }

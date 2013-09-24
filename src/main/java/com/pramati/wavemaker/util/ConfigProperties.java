@@ -15,6 +15,7 @@ public class ConfigProperties {
 
 	// Browser Configuration
 	public static final String URL;
+	public static final String HUBURL;
 	public static final String BROWSER;
 	public static final String COREDRIVERLOC;
 	public static final String TIMEOUT;
@@ -53,6 +54,11 @@ public class ConfigProperties {
 		
 		DEPLOYMENT_URL = properties.getProperty("deploymentUrl");
 		log.info("Got Cloudjee deployment url value from property file "+ DEPLOYMENT_URL);
+		
+		HUBURL = properties.getProperty("huburl");
+		log.info("Got hub url value from property file "+ HUBURL);
+		
+		
 	}
 
 	public static void init() {

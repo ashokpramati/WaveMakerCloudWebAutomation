@@ -2,19 +2,17 @@ package com.pramati.cloudjee.webdriver;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.safari.SafariDriver;
 import org.testng.Assert;
 
 import com.pramati.wavemaker.util.ConfigProperties;
@@ -57,19 +55,47 @@ public class DriverManager {
 	 * @return The driver object
 	 */
 	public static WebDriver getDriver() {
-		String browser = System.getProperty("browser");
-		
-		if (browser.equalsIgnoreCase(CHROME)) {
+		String browser = ConfigProperties.BROWSER;
+
+		if (browser.equalsIgnoreCase(FIREFOX)) {
+
+			log.info("initializing 'firefox' driver...");
+			DesiredCapabilities capabilities = DesiredCapabilities.firefox();			
+			capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+			try {
+				
+				driver = new RemoteWebDriver(new URL(ConfigProperties.HUBURL), capabilities);
+				//driver = new RemoteWebDriver("http://localhost:9515", DesiredCapabilities.chrome());
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		else if (browser.equalsIgnoreCase(CHROME)) {
 
 			if (isPlatformWindows())
-				System.setProperty("webdriver.chrome.driver", driverLoc
-						+ "chromedriver.exe");
+				
+				System.setProperty("webdriver.chrome.driver","C:\\Program Files (x86)\\Google\\Chrome\\Application\\"
+						+ "chrome.exe");
+				
 			else if (isPlatformMac())
 				System.setProperty("webdriver.chrome.driver", driverLoc
 						+ "chromedriver");
 
 			log.info("initializing 'chrome' driver...");
-			driver = new ChromeDriver();
+			
+			DesiredCapabilities capabilities = DesiredCapabilities.chrome();			
+			capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+			try {
+				driver = new RemoteWebDriver(new URL(ConfigProperties.HUBURL), capabilities);
+				//driver = new RemoteWebDriver("http://localhost:9515", DesiredCapabilities.chrome());
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 
 		}
 
@@ -77,27 +103,36 @@ public class DriverManager {
 
 			Assert.assertTrue(isPlatformWindows(),"Internet Explorer is not supporting in this OS");
 
-			DesiredCapabilities dc = DesiredCapabilities.internetExplorer();
-			dc.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-
+			DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();			
+			capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 			System.setProperty("webdriver.ie.driver", driverLoc
 					+ "IEDriverServer.exe");
 
-			log.info("initializing 'internet explorer' driver...");
-			driver = new InternetExplorerDriver(dc);
+			try {
+				driver = new RemoteWebDriver(new URL(ConfigProperties.HUBURL), capabilities);
+				//driver = new RemoteWebDriver("http://localhost:9515", DesiredCapabilities.chrome());
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
+			log.info("initializing 'internet explorer' driver...");
+			
 		}
 
 		else if (browser.equalsIgnoreCase(SAFARI)) {
 
 			Assert.assertTrue(isPlatformWindows() || isPlatformMac(),"Safari is not supporting in this OS");
 
-			System.setProperty("webdriver.safari.driver", driverLoc
-					+ "SafariDriver.safariextz");
-			System.setProperty("webdriver.safari.noinstall", "true");
-
-			log.info("initializing 'safari' driver...");
-			driver = new SafariDriver();
+			DesiredCapabilities capabilities = DesiredCapabilities.safari();			
+			capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+			try {
+				driver = new RemoteWebDriver(new URL(ConfigProperties.HUBURL), capabilities);
+				//driver = new RemoteWebDriver("http://localhost:9515", DesiredCapabilities.chrome());
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
 
@@ -107,16 +142,6 @@ public class DriverManager {
 			driver = new HtmlUnitDriver();
 
 		}
-		
-		else {			
-
-				log.info("initializing 'firefox' driver...");
-				driver = new FirefoxDriver();
-
-			}
-
-	
-
 		return driver;
 	}
 
