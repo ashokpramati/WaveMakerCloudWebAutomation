@@ -1,25 +1,22 @@
 package com.pramati.wavemaker.base;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 
 import com.pramati.wavemaker.pages.WelcomeStudio;
-import com.pramati.wavemaker.util.ScreenshotCapture;
 
 public class BaseTest {
 
 	protected WelcomeStudio homePage = null;
 
-	@BeforeMethod(alwaysRun = true)
+	@BeforeTest(alwaysRun = true)
 	public void runBeforeMethod() {
 		homePage = new WelcomeStudio();		
 	}
 
-	@AfterMethod(alwaysRun = true)
+	@AfterTest(alwaysRun = true)
 	public void runAfterMethod() {
-
-		if (homePage != null) {
-			ScreenshotCapture.takeScreenshot();
+		if (homePage != null) {			
 			homePage.quitBrowser();
 			homePage.resetDriver();
 			homePage = null;

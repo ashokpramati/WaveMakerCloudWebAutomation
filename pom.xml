@@ -5,6 +5,7 @@
 	<artifactId>cloudjeewavemakerintegration</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<description>CloudJee and wavemaker integration</description>
+	<!-- <packaging>pom</packaging> -->
 	<properties>
 		<junit.version>3.8.1</junit.version>
 		<selenium.version>2.35.0</selenium.version>
@@ -194,6 +195,7 @@
 									<value>listenReport.Reporter</value>
 								</property>
 							</properties>
+							<reportsDirectory>${project.basedir}/target/</reportsDirectory>
 							<systemPropertyVariables>
 								<org.uncommons.reportng.escape-output>false</org.uncommons.reportng.escape-output>
 							</systemPropertyVariables>
@@ -206,7 +208,7 @@
 		<profile>
 			<id>browser_chrome</id>
 			<activation>
-				<activeByDefault>false</activeByDefault>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<build>
 				<plugins>
@@ -230,6 +232,8 @@
 							</suiteXmlFiles>
 							<properties>
 								<property>
+								</property>
+								<property>
 									<name>usedefaultlisteners</name>
 									<value>false</value>
 								</property>
@@ -246,6 +250,7 @@
 									<value>listenReport.Reporter</value>
 								</property>
 							</properties>
+							<reportsDirectory>${project.basedir}/target/</reportsDirectory>
 							<systemPropertyVariables>
 								<org.uncommons.reportng.escape-output>false</org.uncommons.reportng.escape-output>
 							</systemPropertyVariables>
@@ -254,7 +259,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<profile>
 			<id>browser_ie</id>
 			<activation>
@@ -282,6 +287,8 @@
 							</suiteXmlFiles>
 							<properties>
 								<property>
+								</property>
+								<property>
 									<name>usedefaultlisteners</name>
 									<value>false</value>
 								</property>
@@ -298,6 +305,7 @@
 									<value>listenReport.Reporter</value>
 								</property>
 							</properties>
+							<reportsDirectory>${project.basedir}/target/</reportsDirectory>
 							<systemPropertyVariables>
 								<org.uncommons.reportng.escape-output>false</org.uncommons.reportng.escape-output>
 							</systemPropertyVariables>
@@ -306,7 +314,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<profile>
 			<id>browser_safari</id>
 			<activation>
@@ -334,6 +342,8 @@
 							</suiteXmlFiles>
 							<properties>
 								<property>
+								</property>
+								<property>
 									<name>usedefaultlisteners</name>
 									<value>false</value>
 								</property>
@@ -350,6 +360,7 @@
 									<value>listenReport.Reporter</value>
 								</property>
 							</properties>
+							<reportsDirectory>${project.basedir}/target/</reportsDirectory>
 							<systemPropertyVariables>
 								<org.uncommons.reportng.escape-output>false</org.uncommons.reportng.escape-output>
 							</systemPropertyVariables>
@@ -361,4 +372,5 @@
 
 	</profiles>
 
+	<!-- <modules> <module>cloudjee-platform</module> </modules> -->
 </project>

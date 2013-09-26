@@ -8,22 +8,20 @@ import java.net.URL;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 
+import com.pramati.wavemaker.util.BaseRemoteWebDriver;
 import com.pramati.wavemaker.util.ConfigProperties;
-
 
 /**
  * This class initializes the driver object for various browser drivers <br>
  * e.g. firefox, chrome, internet explorer, safari etc. <br>
  * It also provides the browser information.
  * 
- * @author  Nellore Krishna Kumar
+ * @author Nellore Krishna Kumar
  * 
  */
 public class DriverManager {
@@ -33,15 +31,17 @@ public class DriverManager {
 	public static final String CHROME = "chrome";
 	public static final String SAFARI = "safari";
 
-	private static WebDriver driver = null;
+	private static BaseRemoteWebDriver driver = null;
 	private static String driverLoc = null;
 	private static Logger log = Logger.getLogger(DriverManager.class);
 
 	static {
 		try {
+			System.out.println(ConfigProperties.COREDRIVERLOC);
+			System.out.println(new File(ConfigProperties.COREDRIVERLOC)
+					.getCanonicalPath() + File.separator);
 			driverLoc = new File(ConfigProperties.COREDRIVERLOC)
-					.getCanonicalPath()
-					+ File.separator;
+					.getCanonicalPath() + File.separator;
 			log.info("Driver location is set to '" + driverLoc + "'");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -54,93 +54,100 @@ public class DriverManager {
 	 * 
 	 * @return The driver object
 	 */
-	public static WebDriver getDriver() {
+	public static final BaseRemoteWebDriver getDriver() {
 		String browser = ConfigProperties.BROWSER;
+		if (driver == null) {
 
-		if (browser.equalsIgnoreCase(FIREFOX)) {
+			if (browser.equalsIgnoreCase(FIREFOX)) {
 
-			log.info("initializing 'firefox' driver...");
-			DesiredCapabilities capabilities = DesiredCapabilities.firefox();			
-			capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-			try {
+				log.info("initializing 'firefox' driver...");
+				DesiredCapabilities capabilities = DesiredCapabilities
+						.firefox();
+				capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS,
+						true);
+				try {
+					driver = new BaseRemoteWebDriver(new URL(
+							ConfigProperties.HUBURL), capabilities);
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+
+			else if (browser.equalsIgnoreCase(CHROME)) {
+
+				if (isPlatformWindows())
 				
-				driver = new RemoteWebDriver(new URL(ConfigProperties.HUBURL), capabilities);
-				//driver = new RemoteWebDriver("http://localhost:9515", DesiredCapabilities.chrome());
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.info("initializing 'chrome' driver...");
+
+				DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+				capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS,
+						true);
+				try {
+					driver = new BaseRemoteWebDriver(new URL(
+							ConfigProperties.HUBURL), capabilities);
+
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 
-		}
+			else if (browser.equalsIgnoreCase(INTERNET_EXPLORER)) {
 
-		else if (browser.equalsIgnoreCase(CHROME)) {
+				Assert.assertTrue(isPlatformWindows(),
+						"Internet Explorer is not supporting in this OS");
 
-			if (isPlatformWindows())
-				
-				System.setProperty("webdriver.chrome.driver","C:\\Program Files (x86)\\Google\\Chrome\\Application\\"
-						+ "chrome.exe");
-				
-			else if (isPlatformMac())
-				System.setProperty("webdriver.chrome.driver", driverLoc
-						+ "chromedriver");
+				DesiredCapabilities capabilities = DesiredCapabilities
+						.internetExplorer();
+				capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS,
+						true);
+				try {
+					driver = new BaseRemoteWebDriver(new URL(
+							ConfigProperties.HUBURL), capabilities);
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
-			log.info("initializing 'chrome' driver...");
-			
-			DesiredCapabilities capabilities = DesiredCapabilities.chrome();			
-			capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-			try {
-				driver = new RemoteWebDriver(new URL(ConfigProperties.HUBURL), capabilities);
-				//driver = new RemoteWebDriver("http://localhost:9515", DesiredCapabilities.chrome());
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+				log.info("initializing 'internet explorer' driver...");
 
-		}
-
-		else if (browser.equalsIgnoreCase(INTERNET_EXPLORER)) {
-
-			Assert.assertTrue(isPlatformWindows(),"Internet Explorer is not supporting in this OS");
-
-			DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();			
-			capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-			System.setProperty("webdriver.ie.driver", driverLoc
-					+ "IEDriverServer.exe");
-
-			try {
-				driver = new RemoteWebDriver(new URL(ConfigProperties.HUBURL), capabilities);
-				//driver = new RemoteWebDriver("http://localhost:9515", DesiredCapabilities.chrome());
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 
-			log.info("initializing 'internet explorer' driver...");
-			
-		}
+			else if (browser.equalsIgnoreCase(SAFARI)) {
 
-		else if (browser.equalsIgnoreCase(SAFARI)) {
+				Assert.assertTrue(isPlatformWindows() || isPlatformMac(),
+						"Safari is not supporting in this OS");
+				DesiredCapabilities capabilities = DesiredCapabilities.safari();
+				capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS,
+						true);
+				try {
+					driver = new BaseRemoteWebDriver(new URL(
+							ConfigProperties.HUBURL), capabilities);				
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
-			Assert.assertTrue(isPlatformWindows() || isPlatformMac(),"Safari is not supporting in this OS");
-
-			DesiredCapabilities capabilities = DesiredCapabilities.safari();			
-			capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-			try {
-				driver = new RemoteWebDriver(new URL(ConfigProperties.HUBURL), capabilities);
-				//driver = new RemoteWebDriver("http://localhost:9515", DesiredCapabilities.chrome());
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 
-		}
+			else if (browser.equalsIgnoreCase("html")) {
 
-		else if (browser.equalsIgnoreCase("html")) {
+				log.info("initializing 'html' driver...");
+				DesiredCapabilities capabilities = DesiredCapabilities.htmlUnit();
+				capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS,
+						true);
+				try {
+					driver = new BaseRemoteWebDriver(new URL(
+							ConfigProperties.HUBURL), capabilities);				
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
-			log.info("initializing 'html' driver...");
-			driver = new HtmlUnitDriver();
-
+			}
 		}
 		return driver;
 	}

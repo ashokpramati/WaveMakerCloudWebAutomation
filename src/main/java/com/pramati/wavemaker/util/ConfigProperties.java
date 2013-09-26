@@ -1,5 +1,6 @@
 package com.pramati.wavemaker.util;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -63,8 +64,7 @@ public class ConfigProperties {
 
 	public static void init() {
 		try {
-			properties.load(ConfigProperties.class
-					.getResourceAsStream("/config.properties"));
+			properties.load(new FileInputStream("src/main/resources/config.properties"));
 			log.info("Successfully loaded config.properties file");			
 		} catch (IOException e) {
 			e.printStackTrace();
