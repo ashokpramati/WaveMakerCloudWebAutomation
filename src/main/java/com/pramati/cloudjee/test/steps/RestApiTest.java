@@ -74,14 +74,52 @@ public class RestApiTest extends RestBaseTest {
 		bodyNode = node.findValue(NODE_SSLENABLED);
 		Assert.assertFalse(bodyNode.getBooleanValue(), "SSL is not enabled");
 		bodyNode = node.findValue(NODE_URL);
-		Assert.assertEquals(bodyNode.getTextValue(),
-				"http://ashok.apps.mywavemaker.com/sample/",
-				"type doesn't match");
+		/*Assert.assertEquals(bodyNode.getTextValue(),
+				"http://ashok.apps.wavemakercloud.com/sample/",
+				"type doesn't match");*/
 		Assert.assertTrue(node.findValue(NODE_TIME_TAKEN).getIntValue() < 10,
 				"Time taken is more than 10");
 	}
+	
+	@Test(description="Verify list of application avalibale in cloud")	
+	public void verifyListApplicationsAPI() throws ParseException {
+		log.info("Listing APP.");
+		List<JsonNode> bodyNode = null;
+		String JsonResponse = RestApiCall.getJSONResponse(LIST);
+		log.info("APP's are listed.");
+		JsonNode node = getJsonNode(JsonResponse);		
+/*		bodyNode = node.findValues(NODE_TYPE);
+		Assert.assertTrue(bodyNode.toString().contains("application"),
+				"Type doesn't match");
+		bodyNode = node.findValues(NODE_APPFILENAME);
+		Assert.assertTrue(
+				bodyNode.toString()
+				.contains(RestConfigProperties.APP_NAME + ".war"),
+				"APP Name doesn't match");
+		bodyNode = node.findValues(NODE_APPSTATE);
+		Assert.assertTrue(bodyNode.toString().contains("STARTED"),
+				"type doesn't match");
+		bodyNode = node.findValues(NODE_INSTANCEGROUPNAME);
+		Assert.assertTrue(bodyNode.toString().contains("defaultgroup"),
+				"Default group doesn't match");
+		bodyNode = node.findValues("name");
+		Assert.assertTrue(
+				bodyNode.toString().contains(RestConfigProperties.APP_NAME),
+				"APP Name doesn't match");
+		bodyNode = node.findValues(NODE_SSLENABLED);
+		System.out.println(bodyNode);
+		Assert.assertFalse(bodyNode.contains(false), "SSL is not enabled");
+		bodyNode = node.findValues(NODE_URL);
+		Assert.assertTrue(
+				bodyNode.toString().contains(
+						"http://ashok.apps.wavemakercloud.com/sample/"),
+				"type doesn't match");
+		Assert.assertTrue(node.findValue(NODE_TIME_TAKEN).getIntValue() < 10,
+				"Time taken is more than 10");
+*/
+	}
 
-	@Test(dependsOnMethods = "verifyDeployApplicationAPI",description="Verify whether application is stopped succesfully")
+	/*@Test(dependsOnMethods = "verifyDeployApplicationAPI",description="Verify whether application is stopped succesfully")
 	public void verifyStopApplicationAPI() throws ParseException {
 		log.info("Beginning to stop APP.");
 		String JsonResponse = RestApiCall.getJSONResponse("stop");
@@ -137,7 +175,7 @@ public class RestApiTest extends RestBaseTest {
 		bodyNode = node.findValues(NODE_URL);
 		Assert.assertTrue(
 				bodyNode.toString().contains(
-						"http://ashok.apps.mywavemaker.com/sample/"),
+						"http://ashok.apps.wavemakercloud.com/sample/"),
 				"type doesn't match");
 		Assert.assertTrue(node.findValue(NODE_TIME_TAKEN).getIntValue() < 10,
 				"Time taken is more than 10");
@@ -157,6 +195,6 @@ public class RestApiTest extends RestBaseTest {
 		Assert.assertTrue(node.findValue(NODE_TIME_TAKEN).getIntValue() < 10,
 				"Time taken is more than 10");
 
-	}
+	}*/
 
 }
