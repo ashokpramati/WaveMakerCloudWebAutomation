@@ -44,6 +44,31 @@ public class RestBaseTest {
 		return UriBuilder.fromUri(uri).build();
 	}
 
+	protected void authenticate(String username,String password) {
+		Client client = getClient();
+		client.addFilter(new LoggingFilter(System.out));
+		// to get the auth_cookie we should disable the redirect follow
+		client.setFollowRedirects(false);
+
+		WebResource service = client
+				.resource(getURIFromString(RestConfigProperties.AUTH_LOGIN_URI));
+		Form formData = new Form();
+		formData.add("j_username", username);
+		formData.add("j_password", password);
+		formData.add("regButton", "Sign In");
+
+		ClientResponse response = service
+				.header("Host", RestConfigProperties.HOST_NAME)
+				.type(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
+				.accept(MediaType.APPLICATION_JSON_TYPE)
+				.post(ClientResponse.class, formData);
+		Assert.assertEquals(response.getClientResponseStatus().getStatusCode(),
+				302); // Found
+
+		setAuthCookie(response);
+		client.setFollowRedirects(true);
+	}
+	
 	protected void authenticate() {
 		Client client = getClient();
 		client.addFilter(new LoggingFilter(System.out));
@@ -62,9 +87,9 @@ public class RestBaseTest {
 				.type(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
 				.accept(MediaType.APPLICATION_JSON_TYPE)
 				.post(ClientResponse.class, formData);
-		Assert.assertEquals(response.getClientResponseStatus().getStatusCode(),
+		/*Assert.assertEquals(response.getClientResponseStatus().getStatusCode(),
 				302); // Found
-
+*/
 		setAuthCookie(response);
 		client.setFollowRedirects(true);
 	}
@@ -142,7 +167,7 @@ public class RestBaseTest {
 		}
 	}
 
-	protected JsonNode getJsonNode(String response) {
+	public JsonNode getJsonNode(String response) {
 		JsonNode node = null;
 		try {
 			ObjectMapper mapper = new ObjectMapper();

@@ -78,12 +78,15 @@ public class DriverManager {
 			else if (browser.equalsIgnoreCase(CHROME)) {
 
 				if (isPlatformWindows())
-				
-				log.info("initializing 'chrome' driver...");
+
+					log.info("initializing 'chrome' driver...");
 
 				DesiredCapabilities capabilities = DesiredCapabilities.chrome();
 				capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS,
 						true);
+				capabilities.setCapability(
+						CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, "ignore");
+				
 				try {
 					driver = new BaseRemoteWebDriver(new URL(
 							ConfigProperties.HUBURL), capabilities);
@@ -125,7 +128,7 @@ public class DriverManager {
 						true);
 				try {
 					driver = new BaseRemoteWebDriver(new URL(
-							ConfigProperties.HUBURL), capabilities);				
+							ConfigProperties.HUBURL), capabilities);
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -136,12 +139,13 @@ public class DriverManager {
 			else if (browser.equalsIgnoreCase("html")) {
 
 				log.info("initializing 'html' driver...");
-				DesiredCapabilities capabilities = DesiredCapabilities.htmlUnit();
+				DesiredCapabilities capabilities = DesiredCapabilities
+						.htmlUnit();
 				capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS,
 						true);
 				try {
 					driver = new BaseRemoteWebDriver(new URL(
-							ConfigProperties.HUBURL), capabilities);				
+							ConfigProperties.HUBURL), capabilities);
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

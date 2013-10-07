@@ -29,4 +29,26 @@ public class RestApiCall {
 		return response;
 	}
 
+	public static String getJSONResponseWithSpecificUserPassword(String command,String username,String password,String param) {
+		log.info("Started getting Json Response for command " + command);		
+		deployHelper = new DeployHelper(username, password);
+		//deployHelper = new DeployHelper(username, password);
+		String response = null;
+		try {
+			if(param.length()>0){
+				deployHelper.undeployindividualapp(param);
+			}
+			else{
+				response = deployHelper.executeCommand(command);
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		log.debug("Got response as " + response);
+		System.out.println(response);
+		return response;
+	}
+
 }

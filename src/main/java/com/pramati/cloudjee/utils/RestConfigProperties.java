@@ -31,6 +31,8 @@ public class RestConfigProperties {
 	public static final String START;
 	public static final String STOP;
 	public static final String LIST;
+	
+	public static final String SIGNOUT;
 
 	private static Properties properties = new Properties();
 
@@ -63,6 +65,8 @@ public class RestConfigProperties {
 		START = properties.getProperty("start");
 		STOP = properties.getProperty("stop");
 		LIST = properties.getProperty("list");
+		
+		SIGNOUT = properties.getProperty("signout");
 	}
 
 	public static void init() {

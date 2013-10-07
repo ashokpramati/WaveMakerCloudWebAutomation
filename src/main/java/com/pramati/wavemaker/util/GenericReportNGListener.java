@@ -5,6 +5,8 @@ import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
 
+import com.pramati.wavemaker.page.BasePage;
+
 /**
  * This class has to be added to the testng task to listen for events.
  * 
@@ -24,8 +26,10 @@ import org.testng.TestListenerAdapter;
 public class GenericReportNGListener extends TestListenerAdapter {
 
 	private int count = 0;
+	
 	private static Logger log = Logger.getLogger(GenericReportNGListener.class);
-
+	
+	
 	@Override
 	public void onTestFailure(ITestResult result) {
 
@@ -60,18 +64,20 @@ public class GenericReportNGListener extends TestListenerAdapter {
 			String screenshotFileUrl = "file:///"
 					+ ScreenshotCapture.getScreenshotDirectory() + testName
 					+ timestamp + ".png";
-
+			
+			
 			log.debug(status + ": Screenshot file location of test '"
 					+ testName + "' is : " + screenshotFileUrl);
 
 			if (status.equals("SKIPPED")) {
 				if (count == 0) {// take only one screenshot
-					ScreenshotCapture.takeScreenshot(testName + timestamp);
+					BasePage.driver.takeRemoteWebScreenshot("target/screenshots/"+testName + timestamp+".png");					
 					count++;
 				}
 			} else
-				ScreenshotCapture.takeScreenshot(testName + timestamp);
-
+					BasePage.driver.takeRemoteWebScreenshot("target/screenshots/"+testName + timestamp+".png");	
+			
+			
 			Reporter.setCurrentTestResult(result);
 
 			Object[] parameters = result.getParameters();

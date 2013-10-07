@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import com.pramati.wavemaker.page.BasePage;
 
@@ -88,9 +90,10 @@ public class Deployment extends BasePage{
 	 * 
 	 * @return
 	 */
-	public String getWaveMakerCloudAccount_CloudTargetTxt(){		
+	public String getWaveMakerCloudAccount_CloudTargetTxt(){
+		basePage.sleep(5000);
 		WebElement cloudTargetEle = Deployment().findElement(By.id(WAVEMAKER_CLOUDACCOUNTDIALOG));
-		log.info("In Deployment page, Got wavemaker cloud account dialog window, Target url text "+cloudTargetEle.findElement(By.className(WAVEMAKER_CLOUDACCOUNT_TARGETURL)).getText());
+		//log.info("In Deployment page, Got wavemaker cloud account dialog window, Target url text "+cloudTargetEle.findElement(By.className(WAVEMAKER_CLOUDACCOUNT_TARGETURL)).getText());
 		return cloudTargetEle.findElement(By.className(WAVEMAKER_CLOUDACCOUNT_TARGETURL)).getText();		
 	}
 
@@ -149,7 +152,7 @@ public class Deployment extends BasePage{
 		log.info("In Deployment page, Getting error deploying text. ");		
 		log.info("In Deployment page, Getting Deployment dialog text, got text "+ basePage.getElementByID("app_alertDialog").findElement(By.id("app_alertDialog_userQuestionLabel"))
 				.findElement(By.className("wmSizeNode")).getText());
-		return basePage.getElementByID("app_alertDialog").findElement(By.id("app_alertDialog_userQuestionLabel"))
+		return basePage.getElementByID("app_alertDialog_genericInfoPanel").findElement(By.id("app_alertDialog_userQuestionLabel"))
 				.findElement(By.className("wmSizeNode")).getText();
 	}
 
@@ -161,7 +164,10 @@ public class Deployment extends BasePage{
 	public String alertGetLinkTextOfDeployment(){
 		log.info("In Deployment page, Getting Deployment dialog text, got link text "+ basePage.
 				getElementByCSS(ALERT_TEXT).getText());
-		return basePage.getElementByCSS(ALERT_TEXT).getText();
+		//System.out.println(basePage.getElementByID("app_alertDialog").getText());
+		WebElement alerttext = basePage.getElementByCSS(ALERT_TEXT);
+		alerttext.click();
+		return alerttext.getText();
 	}
 
 	/**
@@ -323,5 +329,18 @@ public class Deployment extends BasePage{
 		basePage.getElementByID(CONFIRM_OK_BTN).click();
 		log.info("In Deployment page, Waiting for Dialog message to disable located by css "+ WAIT_DIALOG_MSG);
 		waitForElementToDisableByClass(WAIT_DIALOG_MSG);		
+	}
+	
+	
+	public void navigateToNewUrl(String url){		
+		driver.get(url);
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Actions actions = new Actions(driver);
+		actions.sendKeys(Keys.ENTER).build().perform();
 	}
 }

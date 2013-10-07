@@ -3,7 +3,9 @@ package com.pramati.wavemaker.pages;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import com.pramati.wavemaker.page.BasePage;
 
@@ -32,9 +34,12 @@ public class WelcomeStudio extends BasePage {
 
 
 	public WelcomeStudio() {
-		super.init();
+		super.init();		
 		waitForElementLocatedByID(WELCOME_WAVEMAKER_DIALOG, getTimeOutInSeconds());	
 	}
+	
+	
+	
 
 	public WebElement WelcomeTab() {
 		waitForElementLocatedByID(WELCOME_WAVEMAKER_DIALOG, getTimeOutInSeconds());	
@@ -42,7 +47,7 @@ public class WelcomeStudio extends BasePage {
 	}
 
 	public void clickNewProject(){
-		waitForElementLocatedByID(WELCOME_WAVEMAKER_DIALOG, getTimeOutInSeconds());	
+		waitForElementLocatedByID(WELCOME_WAVEMAKER_DIALOG, getTimeOutInSeconds());		
 		WelcomeTab().findElement(By.id(CREATE_NEW_PROJECT)).click();
 	}
 

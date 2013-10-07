@@ -29,6 +29,15 @@ public class DeployHelper extends RestBaseTest {
 				+ "=" + getjsessionId().getValue();
 	}
 
+	public DeployHelper(String username,String password) {
+		if (authCookie == null) {
+			authenticate(username,password);
+		}
+		this.auth = getAuthCookie().getName() + "="
+				+ getAuthCookie().getValue() + "; " + getjsessionId().getName()
+				+ "=" + getjsessionId().getValue();
+	}
+
 	static {
 		javax.net.ssl.HttpsURLConnection
 		.setDefaultHostnameVerifier(new javax.net.ssl.HostnameVerifier() {
@@ -129,8 +138,24 @@ public class DeployHelper extends RestBaseTest {
 				+ response.getStatusLine().getStatusCode());
 		return readResponse(response);
 	}
+	/**
+	 * Signout all session
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	private String signout() throws Exception {
+		DefaultHttpClient httpclient = CreateHttpClient
+				.createHttpClientConnection();
+		HttpGet httpget = new HttpGet(RestConfigProperties.SIGNOUT);
+		httpget.setHeader("Cookie", auth);
+		HttpResponse response = httpclient.execute(httpget);
+		System.out.println("ResponseCode: "
+				+ response.getStatusLine().getStatusCode());
+		return readResponse(response);
+	}
 
-	private String undeploy() throws Exception {
+	public String undeploy() throws Exception {
 		DefaultHttpClient httpclient = CreateHttpClient
 				.createHttpClientConnection();
 		HttpPost httpget = new HttpPost(RestConfigProperties.UNDEPLOY
@@ -142,6 +167,31 @@ public class DeployHelper extends RestBaseTest {
 		return readResponse(response);
 	}
 
+	/**
+	 * To undeploy app individually from cloud
+	 * 
+	 * @param appName
+	 * @return
+	 * @throws Exception
+	 */
+	public String undeployindividualapp(String appName) throws Exception {
+		DefaultHttpClient httpclient = CreateHttpClient
+				.createHttpClientConnection();
+		HttpPost httpget = new HttpPost(RestConfigProperties.UNDEPLOY
+				+ appName);
+		httpget.setHeader("Cookie", auth);
+		HttpResponse response = httpclient.execute(httpget);
+		System.out.println("ResponseCode: "
+				+ response.getStatusLine().getStatusCode());
+		return readResponse(response);
+	}
+
+	/**
+	 * To be used to undeploy Maximum application from cloud
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	private String maxUndeploy() throws Exception {
 		DefaultHttpClient httpclient = CreateHttpClient
 				.createHttpClientConnection();
@@ -149,7 +199,7 @@ public class DeployHelper extends RestBaseTest {
 		String appName = RestConfigProperties.MAX_APP_NAME; //All APP Name are retrieved from property file
 
 		String[] maxAppName =appName.split(",");
-		
+
 		for (String aName : maxAppName) {
 			HttpPost httpget = new HttpPost(RestConfigProperties.UNDEPLOY
 					+ aName);
@@ -159,25 +209,34 @@ public class DeployHelper extends RestBaseTest {
 					+ response.getStatusLine().getStatusCode());
 			undeployMsg += readResponse(response);
 		}
-
-
-
 		return undeployMsg;
-
 	}
 
+
+
 	protected String executeCommand(String cmd) throws Exception {
+		String response = null;
 		if (cmd.equals("deploy")) {
 			File warPath = new File(RestConfigProperties.APP_PATH);
-			return deploy(warPath, RestConfigProperties.APP_NAME);
+			response = deploy(warPath, RestConfigProperties.APP_NAME);
+			signout();
+			return response;
 		} else if (cmd.equals("start")) {
-			return start();
+			response = start();
+			signout();
+			return response;
 		} else if (cmd.equals("stop")) {
-			return stop(RestConfigProperties.APP_NAME);
+			response= stop(RestConfigProperties.APP_NAME);
+			signout();
+			return response;
 		} else if (cmd.equals("list")) {
-			return list();
+			response= list();
+			signout();
+			return response;
 		} else if (cmd.equals("undeploy")) {
-			return undeploy();
+			response= undeploy();
+			signout();
+			return response;
 		}
 		else if (cmd.equals("maxdeploy")) {          //To deploy more than one war file 
 			String deployRes = "";
@@ -196,12 +255,42 @@ public class DeployHelper extends RestBaseTest {
 				appIndex++;
 			}
 
-			return deployRes;
+			response= deployRes;
+			signout();
+			return response;
 		}
 		else if (cmd.equals("maxundeploy")) {  
-			return maxUndeploy();
+			response= maxUndeploy();
+			signout();
+			return response;
 
 		}
 		return null;
 	}
+
+	
+	/**
+	 * Sample example below for usage.
+	 * 
+	 */
+	
+	/*public static void main(String[] args) {
+		DeployHelper dh = new DeployHelper("ashok.c@imaginea.com", "pramati123");
+		
+		
+		try {
+			JsonNode node = new RestBaseTest().getJsonNode(dh.executeCommand("list"));
+			List<JsonNode> appFileList = node.findValues("name");
+			int i =0;
+			for (JsonNode jsonNode : appFileList) {
+				System.out.println(jsonNode.getTextValue() +" ------ " +node.findValues("appState").get(i) +" ------ " +node.findValues("createdAt").get(i));
+				
+				i++;
+			}
+			dh.signout();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}*/
 }

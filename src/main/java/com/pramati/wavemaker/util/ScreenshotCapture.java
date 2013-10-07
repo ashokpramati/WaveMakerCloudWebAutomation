@@ -12,20 +12,25 @@ import javax.imageio.ImageIO;
 
 import org.apache.log4j.Logger;
 
+import com.pramati.wavemaker.page.BasePage;
+
 /**
  * This class gives functionality to capture screenshot of the entire screen
  * 
  * @author Nellore Krishna Kumar
  * 
  */
-public class ScreenshotCapture {
+public class ScreenshotCapture extends BasePage{
 
 	private final static String SCREENSHOTS_DIR = "screenshots";
 	private static String imgLoc = null;
-	private static File  screenShotFile = null;
+	public static File  screenShotFile = null;
+	BaseRemoteWebDriver sc ;
 
 	private static Logger log = Logger.getLogger(ScreenshotCapture.class);
 	
+	
+
 	static {
 		try {			
 			screenShotFile = new File("./target/"+SCREENSHOTS_DIR); 	// Creating Screen Shot in target directory.
@@ -101,6 +106,9 @@ public class ScreenshotCapture {
 			e.printStackTrace();
 		}
 	}
+
+	
+
 
 	/**
 	 * Takes a screen shot of the full screen in specified
