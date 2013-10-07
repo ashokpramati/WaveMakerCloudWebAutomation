@@ -10,13 +10,13 @@
 	<parameter name="instanceGroupName" value="defaultgroup" />
 	<parameter name="name" value="sample" />
 	<parameter name="sslEnabled" value="false" />
-	<parameter name="url" value="http://ashok.apps.mywavemaker.com/sample/" />
+	<parameter name="url" value="http://ashok.apps.wavemakercloud.com/sample/" />
 
 
 	<test name="Sample Test Demonstrating testNG flow">
 		<classes>
 			<class name="com.pramati.cloudjee.test.steps.RestApiTest" />
-			<class name="com.pramati.cloudjee.test.steps.MaxWarUploadTest" />
+			<!-- <class name="com.pramati.cloudjee.test.steps.MaxWarUploadTest" /> -->
 			<!-- <class name="com.pramati.wavemaker.test.steps.WaveMakerTestCase" />
 			<class name="com.pramati.wavemaker.test.steps.WaveMakerMaxWarUploadError"/> -->
 		</classes>
