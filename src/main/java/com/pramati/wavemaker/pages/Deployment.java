@@ -1,6 +1,12 @@
+/**
+ * Copyright (c) 2013 - 2014 CloudJee Inc. All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of CloudJee Inc.
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the source code license agreement you entered into with CloudJee Inc.
+ */
+
 package com.pramati.wavemaker.pages;
-
-
 
 import java.util.List;
 
@@ -27,7 +33,6 @@ public class Deployment extends BasePage{
 	private static final String PASSWORD = "studio_deploymentDialog_deploymentDialog_loginDialogPasswordEditor";
 	private static final String OK_BTN = "studio_deploymentDialog_deploymentDialog_cjLogonOkButton";
 
-
 	private static final String SETTING_WINDOW = "studio_deploymentDialog_deploymentDialog_settingLayers_client";
 	private static final String DEPLOYMENT_EDITOR = "studio_deploymentDialog_deploymentDialog_cjDeploymentNameEditor";
 	private static final String DEPLOYMENT_TYPE = "studio_deploymentDialog_deploymentDialog_cjDeploymentTypeEditor";
@@ -38,8 +43,7 @@ public class Deployment extends BasePage{
 	private static final String DEPLOY_NOW = "studio_deploymentDialog_deploymentDialog_deployButton";
 	private static final String SAVE_BTN  = "studio_deploymentDialog_deploymentDialog_saveButton";
 	private static final String CLOSE_BTN  = "studio_deploymentDialog_deploymentDialog_closeButton";
-	private static final String MANAGE_CLOUD_APP  = "studio_deploymentDialog_deploymentDialog_manageUndeployButton";
-
+	private static final String MANAGE_CLOUD_APP  = "studio_deploymentDialog_deploymentDialog_manageCloudJeeApps";
 
 	private static final String CONFIRM_DIALOG = "app_confirmDialog";
 	private static final String CONFIRM_CANCEL_BTN ="app_confirmDialog_button2";
@@ -47,9 +51,7 @@ public class Deployment extends BasePage{
 
 	private static final String  CJCANCELBTN= "studio_deploymentDialog_deploymentDialog_cjLoginCancelButton";
 
-
 	private static final String WAIT_DIALOG_MSG ="wmWaitMessage";
-
 
 	private static final String STUDIO_DIALOG = "studio_dialog";
 
@@ -62,7 +64,6 @@ public class Deployment extends BasePage{
 	private static final String DEPLOYMENT_INPUT ="input";
 	private static final String DEPLOYMENT_ROLE = "div[role='presentation'";
 
-
 	// Displayed after clicking of Deploy Now button.This is progress bar
 	private static final String DIALOGTITLEBAR = "studio_progressDialog_titleBar";
 	
@@ -70,7 +71,6 @@ public class Deployment extends BasePage{
 	private static final String WAVEMAKER_CLOUDACCOUNT_TARGETURL = "wmeditor-readonlyNode";
 
 	BasePage basePage = new BasePage();
-
 
 	private static Logger log = Logger.getLogger(Deployment.class);
 
@@ -119,7 +119,6 @@ public class Deployment extends BasePage{
 		waitForElementToDisableByID(STUDIO_DIALOG);
 	}
 
-
 	/**
 	 * Click on Wavemaker Cloud Account Ok button, This is confirmation button.
 	 * 
@@ -142,7 +141,6 @@ public class Deployment extends BasePage{
 		return dialogText;		
 	}
 
-
 	/**
 	 * Get Error deployment message. Displayed once more than 5 war file are deployed in cloud.
 	 * 
@@ -164,7 +162,7 @@ public class Deployment extends BasePage{
 	public String alertGetLinkTextOfDeployment(){
 		log.info("In Deployment page, Getting Deployment dialog text, got link text "+ basePage.
 				getElementByCSS(ALERT_TEXT).getText());
-		//System.out.println(basePage.getElementByID("app_alertDialog").getText());
+		//log.info(basePage.getElementByID("app_alertDialog").getText());
 		WebElement alerttext = basePage.getElementByCSS(ALERT_TEXT);
 		alerttext.click();
 		return alerttext.getText();
@@ -185,7 +183,6 @@ public class Deployment extends BasePage{
 		log.info("In Deployment page, Clicking on cancel button, Finding element located by id "+ CJCANCELBTN  + "clicking");
 		Deployment().findElement(By.id(CJCANCELBTN)).click();
 	}
-
 
 	/**
 	 * Setting Window Webelement. This has Deployment URl,Deployment Name,Deployment type, Deployment App Name 
@@ -241,7 +238,6 @@ public class Deployment extends BasePage{
 		basePage.sleep(5000);
 		return getSettingWindowEle().findElement(By.id(DEPLOYMENT_URL)).findElement(By.cssSelector(DEPLOYMENT_URL_TEXT)).getText();
 	} 
-
 
 	/**
 	 * Gets Deployment Setting Window Parent Element.
@@ -331,14 +327,12 @@ public class Deployment extends BasePage{
 		waitForElementToDisableByClass(WAIT_DIALOG_MSG);		
 	}
 	
-	
 	public void navigateToNewUrl(String url){		
 		driver.get(url);
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 		Actions actions = new Actions(driver);
 		actions.sendKeys(Keys.ENTER).build().perform();

@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2013 - 2014 CloudJee Inc. All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of CloudJee Inc.
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the source code license agreement you entered into with CloudJee Inc.
+ */
+
 package com.pramati.wavemaker.pages;
 
 import java.util.List;
@@ -7,13 +15,17 @@ import org.openqa.selenium.WebElement;
 
 import com.pramati.wavemaker.page.BasePage;
 
+/**
+ * 
+ * @author <a href="mailto:pankaj.n@imaginea.com">pankaj</a>
+ *
+ */
 public class ProjectCreationPage extends BasePage{
 
 	private static final String NAV_MENU = "studio_navigationMenu";
 	private static final String MENU_LIST = "div[id^='dijit_MenuBar_']";
 	private static final String MENU_FILE_LIST = "tr[id^='dijit_MenuItem_']";
 	private static final String MENU_FILE_SUB_LIST = "td[id^='dijit_MenuItem_']";
-
 
 	private static final String DEPLOYMENT_DIALOG = "studio_deploymentDialog_deploymentDialog_newDeploymentDialog";
 	private static final String DEPLOYMENT_TOMCAT = "studio_deploymentDialog_deploymentDialog_tomcatRadio";
@@ -33,7 +45,6 @@ public class ProjectCreationPage extends BasePage{
 		return basePage.getElementByCSS(MENU_LIST);
 	}
 
-
 	/**
 	 * Click on File Menu.
 	 * 
@@ -48,6 +59,7 @@ public class ProjectCreationPage extends BasePage{
 			}
 		}
 	}
+
 	/**
 	 * Click on File Sub Menu
 	 * 
@@ -84,14 +96,13 @@ public class ProjectCreationPage extends BasePage{
 		if(deploymentOption.equalsIgnoreCase("Tomcat")){
 			clickTomcat(DeploymentParentEle);
 		}
-		else if(deploymentOption.equalsIgnoreCase("cloudjee")){
+		else if(deploymentOption.equalsIgnoreCase("WaveMaker Cloud (CloudJee)")){
 			clickCloudJee(DeploymentParentEle);
 		}
 		else if(deploymentOption.equalsIgnoreCase("appfile")){
 			clickAppFile(DeploymentParentEle);
 		}
 	}
-
 
 	/**
 	 * @param subMenuParentEle
@@ -100,14 +111,13 @@ public class ProjectCreationPage extends BasePage{
 		subMenuParentEle.findElement(By.id(DEPLOYMENT_APPFILE)).click();
 	}
 
-
 	/**
 	 * @param subMenuParentEle
 	 */
 	private void clickCloudJee(WebElement subMenuParentEle) {
-		subMenuParentEle.findElement(By.id(DEPLOYMENT_CLOUDJEE)).click();
+//		subMenuParentEle.findElement(By.id(DEPLOYMENT_CLOUDJEE)).click();
+		subMenuParentEle.findElement(By.id("dijit_form_RadioButton_6")).click();
 	}
-
 
 	/**
 	 * @param subMenuParentEle
@@ -132,7 +142,6 @@ public class ProjectCreationPage extends BasePage{
 		}		
 	}
 
-
 	/**
 	 * @param deplomentParentBtn
 	 */
@@ -140,13 +149,11 @@ public class ProjectCreationPage extends BasePage{
 		deplomentParentBtn.findElement(By.id(DEPLOYMENT_BUTTON_CANCEL)).click();
 	}
 
-
 	/**
 	 * @param deplomentParentBtn
 	 */
 	private void clickOkBtn(WebElement deplomentParentBtn) {
 		deplomentParentBtn.findElement(By.id(DEPLOYMENT_BUTTON_OK)).click();
 	}
-
 
 }
